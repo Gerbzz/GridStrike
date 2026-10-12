@@ -1,5 +1,5 @@
-# GridStrike source scope
+# Public source boundary
 
-This source candidate contains the GridStrike Rust package, six synthetic CSV/XLSX acceptance files, and the selected DesignCraft XLSX donor file with its original `LICENSE-MIT`, `LICENSE-APACHE`, and `NOTICE`. The donor file is retained for provenance; XLSX import is not linked or tested. The adapted cell-reference helper cites DesignCraft commit `a9124a0517594ce9872f73637e7b841a4967bcf9`.
+This repository contains the complete GridCraft-based native spreadsheet source preview plus the earlier GridStrike source reader needed for explicit `.gstrike` import. It does not contain a user workbook, original archive fixture, binaries, build caches, app logs, credentials, donor ArtCraft marks, donor icons, or upstream contributor metadata. The simple GridStrike icon files are listed in [ATTRIBUTION.md](ATTRIBUTION.md).
 
-The donor notice describes the upstream DesignCraft product, including assets not present here. Its original text is retained as attribution and does not mean those assets or features are bundled. GridStrike's own Rust code has no license grant in this candidate. No binary, installer, user workbook, capture, model, or Office sibling app is included.
+The new code is an ordinary descendant of the prior public GridStrike history. The old source remains reachable in Git history, and the native app opens its own supported formats until a user explicitly imports an old archive. No compatibility claim beyond the tested importer mappings in [README.md](README.md) is made.

@@ -1,0 +1,8 @@
+# GridStrike source adaptation
+
+- Donor: [storytold/gridcraft](https://github.com/storytold/gridcraft) commit `3926d21aa9a79d272b9f71ae60d67d7d7e5bd2c2`.
+- Includes the native desktop, CLI and web source, the full formula/calculation/model/XLSX/chart/PDF/engine/egui source graph, workspace manifests and lockfile, and local development tooling. The desktop target is `gridstrike`; native document behavior and internal donor crate names remain.
+- GridStrike identity changes cover Windows metadata, app ID, settings folder, common UI titles, About panel and a simple spreadsheet icon. Restricted ArtCraft brand material and donor app icons are excluded. The original dual-license files and `NOTICE` remain unchanged; the donor asset ledger is preserved separately as `UPSTREAM_ATTRIBUTION.md`.
+- The original `.gstrike` implementation is included at `legacy/gridstrike` solely as a source reader for the explicit importer. The engine path dependency resolves inside this repository. It does not replace the current native desktop or silently convert old files.
+- Windows verification of the source foundation includes a locked native build, self-authored XLSX edit/save/reopen/formula/undo/CSV workflows, a chart round trip, a CSV safety fix, and two passing legacy-import integration tests. The exact validated foundation preceded only portable packaging/documentation changes in this public candidate. No heavy candidate build has yet been run.
+- Physical desktop interaction, accessibility, interrupted-save recovery, broad XLSX fidelity, dependency redistribution notices, and non-Windows platforms remain open before a binary release. No old-format file association is enabled.
