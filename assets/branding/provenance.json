@@ -1,0 +1,21 @@
+{
+  "app": "GridStrike",
+  "asset": "assets/branding/GridStrike.png",
+  "method": "Lossless rectangular extraction of original pixels with ImageMagick. No scaling, recoloring, tracing, generation, transparency fabrication or animal changes. Original cream outside rounded corners retained. Labels excluded.",
+  "coordinate_system": "Origin top-left; crop bounds [left, top, right, bottom), right/bottom exclusive.",
+  "source_sha256": "0d16865033d8ca3b0528128ae2e2680defe6b8be6a01bf76a4e35e3fe7b75a1d",
+  "crop_bounds": [
+    696,
+    0,
+    1352,
+    656
+  ],
+  "dimensions": [
+    656,
+    656
+  ],
+  "sha256": "afcadd15f0f4e2591377628e1ab71a9fa9e78e232dfdd0b23b8d8c3984617bf0",
+  "decoded_rgb_sha256": "6b5eb2566e870b9819527978ae2379b42e8cd911882f90048271d8d613de575d",
+  "pixel_equality_verified": true,
+  "git_blob_sha": "51e9d539083d312d261f4a6c781d9376bb76b5dc"
+}
