@@ -1,8 +1,24 @@
-# GridStrike source preview
+# GridStrike
 
-GridStrike is a local desktop spreadsheet editor adapted from the complete [GridCraft](https://github.com/storytold/gridcraft) Rust source at commit `3926d21aa9a79d272b9f71ae60d67d7d7e5bd2c2`. The desktop binary is `gridstrike`; internal `gridcraft-*` crate names and native workbook behavior remain. The workspace also retains donor CLI and web source as development/reference targets. No hosted service is required for the desktop workflow.
+**by PWDS**
 
-**Status: early source preview.** On Windows, the native desktop target compiled with the pinned lockfile after a CSV export safety fix. A self-authored workbook was edited, saved and reopened as XLSX with formula source and calculated value intact, edited with undo/redo, and exported to CSV. Chart/XLSX round-trip and a grid selection helper test passed. These are command/model fixtures, not a physical pointer, keyboard, screen reader or visual desktop acceptance test. Crash recovery, broad XLSX fidelity, malformed UI input, other platforms and binary packaging remain unverified. No release binary is provided.
+**Make room for the numbers.**
+
+GridStrike is a local spreadsheet editor for everyday workbook work. Open a sheet, edit cells and formulas, revisit changes with undo and redo, then save an XLSX workbook or export table data to CSV.
+
+### Highlights
+
+- Edit cells and formulas in a desktop grid.
+- Save and reopen editable XLSX workbooks.
+- Export tables to CSV for other tools.
+
+## Current status
+
+Early Windows source preview. The desktop target compiled, and a self-authored workbook passed a bounded edit, save, reopen, formula, and CSV workflow. Broad XLSX fidelity, crash recovery, interactive accessibility, other platforms, and release packaging remain unverified.
+
+## Work with a workbook
+
+Edit cells and formulas in the desktop grid, use undo and redo while revising, and save the workbook as XLSX. Export a CSV when the table needs to move to another tool. Existing `.gstrike` projects follow the compatibility path described below.
 
 ## Earlier `.gstrike` projects
 
@@ -19,3 +35,7 @@ cargo test --locked --offline -p gridcraft-engine --test legacy_import
 ```
 
 The original GridCraft `LICENSE-MIT`, `LICENSE-APACHE` and `NOTICE` are preserved. [ADAPTATION.md](ADAPTATION.md) describes the current source changes, [ATTRIBUTION.md](ATTRIBUTION.md) distinguishes included assets from donor history, and [UPSTREAM_ATTRIBUTION.md](UPSTREAM_ATTRIBUTION.md) retains the donor inventory. A complete transitive dependency and binary notice audit remains before a release.
+
+## Source and verification notes
+
+GridStrike adapts the complete [GridCraft](https://github.com/storytold/gridcraft) Rust source at `3926d21aa9a79d272b9f71ae60d67d7d7e5bd2c2`. The desktop binary is `gridstrike`; retained `gridcraft-*` crate names, CLI, and web sources remain development/reference targets. The Windows checkpoint compiled with the pinned lockfile after a CSV export safety fix. A self-authored workbook was edited, saved and reopened as XLSX with formula source and calculated value intact; chart/XLSX round-trip and a grid selection helper also passed bounded tests. These are model fixtures, not interactive desktop acceptance.
