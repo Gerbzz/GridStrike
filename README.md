@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/branding/GridStrike.png" alt="Original GridStrike logo" width="160" height="160">
+</p>
+
 # GridStrike
 
 **by PWDS**
@@ -5,6 +9,8 @@
 **Make room for the numbers.**
 
 GridStrike is a local spreadsheet editor for everyday workbook work. Open a sheet, edit cells and formulas, revisit changes with undo and redo, then save an XLSX workbook or export table data to CSV.
+
+[Highlights](#highlights) · [Build from source](#build-from-source) · [Original artwork](assets/branding)
 
 ## Highlights
 
