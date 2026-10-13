@@ -6,7 +6,7 @@
 
 GridStrike is a local spreadsheet editor for everyday workbook work. Open a sheet, edit cells and formulas, revisit changes with undo and redo, then save an XLSX workbook or export table data to CSV.
 
-### Highlights
+## Highlights
 
 - Edit cells and formulas in a desktop grid.
 - Save and reopen editable XLSX workbooks.
@@ -18,7 +18,7 @@ Early Windows source preview. The desktop target compiled, and a self-authored w
 
 ## Workbook formats
 
-The bounded Windows check saved and reopened an XLSX workbook with its formula source and calculated value intact, then exported CSV. Earlier `.gstrike` archives use a separate format and require the explicit copy-based conversion below; ordinary Open does not silently reinterpret them.
+The bounded Windows check saved and reopened an XLSX workbook with its formula source and calculated value intact, then exported CSV for table exchange. XLSX remains the editable workbook in that tested path, while CSV carries table values for other tools. Earlier `.gstrike` archives use a separate format and require the explicit copy-based conversion below; ordinary Open does not silently reinterpret them.
 
 ## Earlier `.gstrike` projects
 
