@@ -15,6 +15,8 @@
 
 GridStrike is a local spreadsheet editor for everyday workbook work. Open a sheet, edit cells and formulas, revisit changes with undo and redo, then save an XLSX workbook or export table data to CSV.
 
+<p align="center"><a href="#highlights">Highlights</a> · <a href="#build-from-source">Build from source</a> · <a href="assets/branding">Original artwork</a></p>
+
 ![GridStrike showing a quarterly sales workbook, formula totals, sparklines, and charts](assets/screenshots/gridstrike-sales-dashboard.png)
 
 *A live GridStrike window displaying its original Quarterly Sales Dashboard sample.*
@@ -26,8 +28,6 @@ The original sales sample combines a styled table, calculated totals, growth rat
 ![GridStrike showing a household budget with conditional formatting and a comparison chart](assets/screenshots/gridstrike-budget-analysis.png)
 
 *The separate Household Budget sample shows category totals, color cues, and a budget versus actual chart in the Insert workspace.*
-
-<p align="center"><a href="#highlights">Highlights</a> · <a href="#build-from-source">Build from source</a> · <a href="assets/branding">Original artwork</a></p>
 
 ## Highlights
 
