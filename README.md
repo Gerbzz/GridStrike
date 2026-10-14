@@ -4,9 +4,28 @@
 
 <h1 align="center">GridStrike</h1>
 
-<p align="center"><strong>by PWDS</strong><br><strong>Make room for the numbers.</strong></p>
+<p align="center">
+  <a href="https://prowebdevsolutions.com"><picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/branding/PWDS-logo-orange.svg">
+    <img src="assets/branding/PWDS-logo.png" alt="PWDS company logo" width="120">
+  </picture></a>
+</p>
+
+<p align="center"><strong>Make room for the numbers.</strong></p>
 
 GridStrike is a local spreadsheet editor for everyday workbook work. Open a sheet, edit cells and formulas, revisit changes with undo and redo, then save an XLSX workbook or export table data to CSV.
+
+![GridStrike showing a quarterly sales workbook, formula totals, sparklines, and charts](assets/screenshots/gridstrike-sales-dashboard.png)
+
+*A live GridStrike window displaying its original Quarterly Sales Dashboard sample.*
+
+## Workbook workflows
+
+The original sales sample combines a styled table, calculated totals, growth rates, sparklines, and two charts. In this bounded live run, GridStrike saved it as XLSX and reopened cell `G5` with formula `=SUM(C5:F5)` and value `$217,420` intact.
+
+![GridStrike showing a household budget with conditional formatting and a comparison chart](assets/screenshots/gridstrike-budget-analysis.png)
+
+*The separate Household Budget sample shows category totals, color cues, and a budget versus actual chart in the Insert workspace.*
 
 <p align="center"><a href="#highlights">Highlights</a> · <a href="#build-from-source">Build from source</a> · <a href="assets/branding">Original artwork</a></p>
 
@@ -18,7 +37,7 @@ GridStrike is a local spreadsheet editor for everyday workbook work. Open a shee
 
 ## Current status
 
-Early Windows source preview. The desktop target compiled, and a self-authored workbook passed a bounded edit, save, reopen, formula, and CSV workflow. Broad XLSX fidelity, crash recovery, interactive accessibility, other platforms, and release packaging remain unverified.
+Early Windows source preview. Earlier bounded model tests covered edit, save, reopen, formula, and CSV workflows. The retained Windows desktop build also rendered both original sample workbooks in a live window; its sales workbook saved and reopened with formula source and calculated value intact. These checks do not establish broad XLSX fidelity, crash recovery, interactive accessibility, other platforms, or release packaging.
 
 ## Workbook formats
 
@@ -40,6 +59,8 @@ cargo test --locked --offline -p gridcraft-engine --test legacy_import
 
 The original GridCraft `LICENSE-MIT`, `LICENSE-APACHE` and `NOTICE` are preserved. [ADAPTATION.md](ADAPTATION.md) describes the current source changes, [ATTRIBUTION.md](ATTRIBUTION.md) distinguishes included assets from donor history, and [UPSTREAM_ATTRIBUTION.md](UPSTREAM_ATTRIBUTION.md) retains the donor inventory. A complete transitive dependency and binary notice audit remains before a release.
 
+The GridStrike app logo remains the original suite artwork. The PWDS company mark is the existing official logo from [PWDS-Website](https://github.com/Gerbzz/PWDS-Website/blob/main/public/prowebdevsolutions-logo.png); its orange variant is the [official site asset](https://prowebdevsolutions.com/images/prowebdevsolutions-logo-orange.svg). [Screenshot provenance](docs/SCREENSHOT_PROVENANCE.md) records the live capture and sample workflow.
+
 ## Source and verification notes
 
-GridStrike adapts the complete [GridCraft](https://github.com/storytold/gridcraft) Rust source at `3926d21aa9a79d272b9f71ae60d67d7d7e5bd2c2`. The desktop binary is `gridstrike`; retained `gridcraft-*` crate names, CLI, and web sources remain development/reference targets. The Windows checkpoint compiled with the pinned lockfile after a CSV export safety fix. A self-authored workbook was edited, saved and reopened as XLSX with formula source and calculated value intact; chart/XLSX round-trip and a grid selection helper also passed bounded tests. These are model fixtures, not interactive desktop acceptance.
+GridStrike adapts the complete [GridCraft](https://github.com/storytold/gridcraft) Rust source at `3926d21aa9a79d272b9f71ae60d67d7d7e5bd2c2`. The desktop binary is `gridstrike`; retained `gridcraft-*` crate names, CLI, and web sources remain development/reference targets. The Windows checkpoint compiled with the pinned lockfile after a CSV export safety fix. A self-authored workbook was edited, saved and reopened as XLSX with formula source and calculated value intact; chart/XLSX round-trip and a grid selection helper also passed bounded model tests. The screenshots above come from a separate live desktop run through the app's built-in control channel, not a full interactive acceptance pass.
