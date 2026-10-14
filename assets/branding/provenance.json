@@ -1,21 +1,70 @@
 {
   "app": "GridStrike",
   "asset": "assets/branding/GridStrike.png",
-  "method": "Lossless rectangular extraction of original pixels with ImageMagick. No scaling, recoloring, tracing, generation, transparency fabrication or animal changes. Original cream outside rounded corners retained. Labels excluded.",
-  "coordinate_system": "Origin top-left; crop bounds [left, top, right, bottom), right/bottom exclusive.",
-  "source_sha256": "0d16865033d8ca3b0528128ae2e2680defe6b8be6a01bf76a4e35e3fe7b75a1d",
-  "crop_bounds": [
-    696,
-    0,
-    1352,
-    656
-  ],
+  "method": "Measured rounded alpha mask applied to the original 656x656 logo tile, then translated by whole pixels to center its visible bounds. Original visible RGB and masked visible RGBA were verified unchanged.",
+  "source_tile": {
+    "repository": "Gerbzz/GridStrike",
+    "commit": "b11c0ed6662ef0a8be386a9f6c479839063bb22a",
+    "path": "assets/branding/GridStrike.png",
+    "sha256": "afcadd15f0f4e2591377628e1ab71a9fa9e78e232dfdd0b23b8d8c3984617bf0",
+    "git_blob_sha": "51e9d539083d312d261f4a6c781d9376bb76b5dc"
+  },
+  "mask_and_centering": {
+    "inset_pixels": 1.5,
+    "masked_alpha_bbox": [
+      19,
+      24,
+      639,
+      628
+    ],
+    "centered_alpha_bbox": [
+      18,
+      26,
+      638,
+      630
+    ],
+    "integer_translation": [
+      -1,
+      2
+    ],
+    "padding_ltrb": [
+      18,
+      26,
+      18,
+      26
+    ],
+    "original_visible_rgb_exact": true,
+    "masked_visible_rgba_exact": true,
+    "transparent_corners": true
+  },
   "dimensions": [
     656,
     656
   ],
-  "sha256": "afcadd15f0f4e2591377628e1ab71a9fa9e78e232dfdd0b23b8d8c3984617bf0",
-  "decoded_rgb_sha256": "6b5eb2566e870b9819527978ae2379b42e8cd911882f90048271d8d613de575d",
-  "pixel_equality_verified": true,
-  "git_blob_sha": "51e9d539083d312d261f4a6c781d9376bb76b5dc"
+  "mode": "RGBA",
+  "sha256": "4b1ca5b24064fe68b9986ba839a8be046ae7adb6eceaa7da5b8861e1f81131b9",
+  "decoded_rgba_sha256": "92d3676a594bc401f4967ecd883a752fc2936cae4de172f6678f214cc6b1a5f1",
+  "git_blob_sha": "03ba2f21ba634f8fda3c274159b8c45c3865fb6e",
+  "tool": "ImageMagick 7.1.2-34 Q16 x64",
+  "original_tile_provenance": {
+    "app": "GridStrike",
+    "asset": "assets/branding/GridStrike.png",
+    "method": "Lossless rectangular extraction of original pixels with ImageMagick. No scaling, recoloring, tracing, generation, transparency fabrication or animal changes. Original cream outside rounded corners retained. Labels excluded.",
+    "coordinate_system": "Origin top-left; crop bounds [left, top, right, bottom), right/bottom exclusive.",
+    "source_sha256": "0d16865033d8ca3b0528128ae2e2680defe6b8be6a01bf76a4e35e3fe7b75a1d",
+    "crop_bounds": [
+      696,
+      0,
+      1352,
+      656
+    ],
+    "dimensions": [
+      656,
+      656
+    ],
+    "sha256": "afcadd15f0f4e2591377628e1ab71a9fa9e78e232dfdd0b23b8d8c3984617bf0",
+    "decoded_rgb_sha256": "6b5eb2566e870b9819527978ae2379b42e8cd911882f90048271d8d613de575d",
+    "pixel_equality_verified": true,
+    "git_blob_sha": "51e9d539083d312d261f4a6c781d9376bb76b5dc"
+  }
 }
