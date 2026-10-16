@@ -995,7 +995,7 @@ impl SheetApp {
             && self.editor.is_none()
             && self.text_box_editor.is_none()
             && now - self.grid.last_autosave > 2000.0
-            && self.session.active().is_some_and(|d| d.is_dirty() && d.path.as_deref().is_some_and(|p| p.ends_with(".xlsx")))
+            && self.session.active().is_some_and(|d| d.is_dirty() && d.path.as_deref().is_some_and(autosave_xlsx_path))
         {
             self.grid.last_autosave = now;
             if let Err(e) = self.run("file.save", json!({})) {
@@ -1089,6 +1089,13 @@ pub fn clean_error(e: &str) -> String {
         return rest.to_string();
     }
     e.to_string()
+}
+
+fn autosave_xlsx_path(path: &str) -> bool {
+    std::path::Path::new(path)
+        .extension()
+        .and_then(|ext| ext.to_str())
+        .is_some_and(|ext| ext.eq_ignore_ascii_case("xlsx"))
 }
 
 #[allow(clippy::disallowed_methods)] // the clock is read only off wasm
