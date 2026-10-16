@@ -998,8 +998,13 @@ impl SheetApp {
             && self.session.active().is_some_and(|d| d.is_dirty() && d.path.as_deref().is_some_and(|p| p.ends_with(".xlsx")))
         {
             self.grid.last_autosave = now;
-            self.store_view_state();
-            let _ = self.session.run("file.save", json!({}));
+            if let Err(e) = self.run("file.save", json!({})) {
+                self.grid.autosave = false;
+                self.message = Some((
+                    "AutoSave failed".into(),
+                    format!("{}\n\nAutomatic saving is paused. Save manually or re-enable AutoSave after fixing the problem.", clean_error(&e)),
+                ));
+            }
         }
         // Window title.
         if let Some(d) = self.session.active() {
