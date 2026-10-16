@@ -92,4 +92,3 @@ fn failed_replacement_preserves_existing_destination_and_cleans_staging() {
     assert_eq!(fs::read(&sentinel).unwrap(), b"preserve me");
     d.assert_no_owned_temps();
 }
-

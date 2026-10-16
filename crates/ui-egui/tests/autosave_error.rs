@@ -52,4 +52,3 @@ fn autosave_failure_is_shown_and_pauses_retries() {
     drop(h);
     std::fs::remove_dir_all(dir).unwrap();
 }
-

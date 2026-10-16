@@ -26,4 +26,3 @@ jobs:
       - name: Test visible autosave failure
         if: runner.os == 'Windows'
         run: cargo test --locked -p gridcraft-ui-egui --test autosave_error
-
