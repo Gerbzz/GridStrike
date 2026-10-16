@@ -7,6 +7,9 @@ use gridcraft_model::{Sheet, Workbook};
 
 use crate::{EngineError, Result};
 
+#[cfg(not(target_arch = "wasm32"))]
+mod safe_save;
+
 /// File formats GridCraft reads or writes.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum FileKind {
@@ -352,10 +355,7 @@ pub fn read_file(path: &str) -> Result<Vec<u8>> {
 
 #[cfg(not(target_arch = "wasm32"))]
 pub fn write_file(path: &str, bytes: &[u8]) -> Result<()> {
-    // Write to a temporary file, then rename: a crash never leaves a half-written workbook.
-    let tmp = format!("{path}.sctmp");
-    std::fs::write(&tmp, bytes).map_err(|e| EngineError::Other(format!("{path}: {e}")))?;
-    std::fs::rename(&tmp, path).map_err(|e| EngineError::Other(format!("{path}: {e}")))
+    safe_save::write(std::path::Path::new(path), bytes).map_err(|e| EngineError::Other(format!("{path}: {e}")))
 }
 
 #[cfg(target_arch = "wasm32")]

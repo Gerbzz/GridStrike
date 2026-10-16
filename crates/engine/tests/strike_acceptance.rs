@@ -26,7 +26,7 @@ fn editable_workbook_recalculates_and_exports_guarded_csv() {
     assert_eq!(value(&session, "E2"), Value::text(" =1+1"));
     assert_eq!(value(&session, "F2"), Value::number(-7.0));
     let first_bytes = io::save_bytes(&session.doc().unwrap().wb, "self-authored-budget.xlsx").unwrap();
-    std::fs::write(&xlsx, first_bytes).unwrap();
+    io::write_file(xlsx.to_str().unwrap(), &first_bytes).unwrap();
 
     let (reopened, _) = io::open_bytes("self-authored-budget.xlsx", &std::fs::read(&xlsx).unwrap()).unwrap();
     let mut session = Session::new();
@@ -40,12 +40,12 @@ fn editable_workbook_recalculates_and_exports_guarded_csv() {
     session.execute("edit.redo", json!({})).unwrap();
     assert_eq!(value(&session, "C2"), Value::number(27.0));
 
-    std::fs::write(&xlsx, io::save_bytes(&session.doc().unwrap().wb, "self-authored-budget.xlsx").unwrap()).unwrap();
+    io::write_file(xlsx.to_str().unwrap(), &io::save_bytes(&session.doc().unwrap().wb, "self-authored-budget.xlsx").unwrap()).unwrap();
     let csv_bytes = io::save_bytes(&session.doc().unwrap().wb, "self-authored-budget.csv").unwrap();
     let csv_text = String::from_utf8(csv_bytes.clone()).unwrap();
     assert!(csv_text.contains("'@SUM(1,1)"), "formula-like text must be guarded in default CSV: {csv_text:?}");
     assert!(csv_text.contains("' =1+1"), "leading whitespace must be guarded in default CSV: {csv_text:?}");
     assert!(csv_text.contains(",-7\r\n"), "numeric negatives must remain numeric: {csv_text:?}");
     assert!(csv_text.contains("27"));
-    std::fs::write(&csv, csv_bytes).unwrap();
+    io::write_file(csv.to_str().unwrap(), &csv_bytes).unwrap();
 }
