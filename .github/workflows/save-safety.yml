@@ -23,6 +23,6 @@ jobs:
         run: cargo test --locked -p gridcraft-engine --test strike_acceptance
         env:
           STRIKE_GRID_NATIVE_ACCEPTANCE_DIR: ${{ runner.temp }}/gridstrike-acceptance
-      - name: Test visible autosave failure
+      - name: Test autosave success and failure
         if: runner.os == 'Windows'
-        run: cargo test --locked -p gridcraft-ui-egui --test autosave_error
+        run: cargo test --locked -p gridcraft-ui-egui --test autosave_error --test autosave_success
