@@ -1,0 +1,28 @@
+name: Save safety
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  native-save:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Check owned staging and cleanup
+        run: cargo test --locked -p gridcraft-engine --lib io::safe_save::tests
+      - name: Test production file writer
+        run: cargo test --locked -p gridcraft-engine --test save_safety
+      - name: Test workbook acceptance through production writer
+        run: cargo test --locked -p gridcraft-engine --test strike_acceptance
+        env:
+          STRIKE_GRID_NATIVE_ACCEPTANCE_DIR: ${{ runner.temp }}/gridstrike-acceptance
+      - name: Test visible autosave failure
+        if: runner.os == 'Windows'
+        run: cargo test --locked -p gridcraft-ui-egui --test autosave_error
