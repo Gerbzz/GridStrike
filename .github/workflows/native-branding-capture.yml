@@ -1,0 +1,42 @@
+name: Capture retained GridStrike native branding
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/native-branding-capture.yml
+      - tools/capture_native_branding.ps1
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  retained-native-capture:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Verify and capture the retained native executable without rebuilding
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./tools/capture_native_branding.ps1 -OutputDirectory "${{ runner.temp }}/gridstrike-native-branding-capture"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gridstrike-native-branding-capture
+          path: |
+            ${{ runner.temp }}/gridstrike-native-branding-capture/gridstrike-sales-dashboard.png
+            ${{ runner.temp }}/gridstrike-native-branding-capture/gridstrike-sales-dashboard-client.png
+            ${{ runner.temp }}/gridstrike-native-branding-capture/gridstrike-budget-analysis.png
+            ${{ runner.temp }}/gridstrike-native-branding-capture/gridstrike-budget-analysis-client.png
+            ${{ runner.temp }}/gridstrike-native-branding-capture/proof.json
+          if-no-files-found: error
+          retention-days: 1
