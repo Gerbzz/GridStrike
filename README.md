@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/branding/GridStrike.png" alt="Original GridStrike logo" width="160" height="160">
+  <img src="assets/branding/GridStrike-geometric.svg" alt="GridStrike: cells resolve into a strong subtotal rail" width="160" height="160">
 </p>
 
 <h1 align="center">GridStrike</h1>
@@ -59,7 +59,7 @@ cargo test --locked --offline -p gridcraft-engine --test legacy_import
 
 The original GridCraft `LICENSE-MIT`, `LICENSE-APACHE` and `NOTICE` are preserved. [ADAPTATION.md](ADAPTATION.md) describes the current source changes, [ATTRIBUTION.md](ATTRIBUTION.md) distinguishes included assets from donor history, and [UPSTREAM_ATTRIBUTION.md](UPSTREAM_ATTRIBUTION.md) retains the donor inventory. A complete transitive dependency and binary notice audit remains before a release.
 
-The GridStrike app logo remains the original suite artwork. The PWDS company mark is the existing official logo from [PWDS-Website](https://github.com/Gerbzz/PWDS-Website/blob/main/public/prowebdevsolutions-logo.png); its orange variant is the [official site asset](https://prowebdevsolutions.com/images/prowebdevsolutions-logo-orange.svg). [Screenshot provenance](docs/SCREENSHOT_PROVENANCE.md) records the live capture and sample workflow.
+The current GridStrike app mark is original geometric artwork. The historical spider mark and its provenance remain preserved. The PWDS company mark is the existing official logo from [PWDS-Website](https://github.com/Gerbzz/PWDS-Website/blob/main/public/prowebdevsolutions-logo.png); its orange variant is the [official site asset](https://prowebdevsolutions.com/images/prowebdevsolutions-logo-orange.svg). [Screenshot provenance](docs/SCREENSHOT_PROVENANCE.md) records the live capture and sample workflow.
 
 ## Source and verification notes
 
