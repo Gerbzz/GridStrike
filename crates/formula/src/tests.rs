@@ -336,3 +336,22 @@ fn formulas_longer_than_excel_allows_are_refused() {
     assert!(text.len() > crate::MAX_FORMULA_LEN);
     assert!(parse(&text).is_ok());
 }
+
+#[test]
+fn exact_formula_length_boundary_preserves_unicode_and_localized_input() {
+    for character in ['x', 'é', '🦀'] {
+        let at_limit = format!("\"{}\"", character.to_string().repeat(crate::MAX_FORMULA_LEN - 2));
+        let over_limit = format!("\"{}\"", character.to_string().repeat(crate::MAX_FORMULA_LEN - 1));
+        assert_eq!(at_limit.chars().count(), crate::MAX_FORMULA_LEN);
+        for prefix in ["", "="] {
+            let accepted = format!("{prefix}{at_limit}");
+            let refused = format!("{prefix}{over_limit}");
+            assert!(parse(&accepted).is_ok());
+            assert!(parse(&refused).is_err());
+            for locale in [crate::FormulaLocale::En, crate::FormulaLocale::Es] {
+                assert!(crate::parse_input(&accepted, locale, |_| false).is_ok());
+                assert!(crate::parse_input(&refused, locale, |_| false).is_err());
+            }
+        }
+    }
+}
