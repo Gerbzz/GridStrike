@@ -1,0 +1,43 @@
+name: Formula correctness
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  formula-tests:
+    name: Formula libraries (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    env:
+      CARGO_BUILD_JOBS: 2
+      CARGO_INCREMENTAL: 0
+      CARGO_PROFILE_DEV_DEBUG: 0
+      CARGO_PROFILE_TEST_DEBUG: 0
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Test affected formula, function, calculation and XLSX libraries
+        run: cargo test --locked -p gridcraft-formula -p gridcraft-functions -p gridcraft-calc -p gridcraft-xlsx --lib -- --test-threads=2
+      - name: Test the explicit legacy importer
+        run: cargo test --locked -p gridcraft-engine --test legacy_import
+      - name: Verify the regressions distinguish the original behavior
+        if: runner.os == 'Linux'
+        run: python3 .github/scripts/formula-regression-controls.py
+      - name: Preserve regression control evidence
+        if: always() && runner.os == 'Linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: formula-regression-controls-${{ github.sha }}
+          path: ${{ runner.temp }}/formula-regression-controls
+          if-no-files-found: error
