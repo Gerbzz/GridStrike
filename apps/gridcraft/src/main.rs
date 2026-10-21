@@ -232,9 +232,9 @@ fn write_print_pdf(dir: &std::path::Path, bytes: &[u8]) -> std::io::Result<std::
 
 fn icon() -> Option<egui::IconData> {
     #[cfg(target_os = "macos")]
-    let bytes = include_bytes!("../../../assets/app-icon/gridstrike-1024.png");
+    let bytes = include_bytes!("../../../assets/app-icon/gridstrike-geometric-1024.png");
     #[cfg(not(target_os = "macos"))]
-    let bytes = include_bytes!("../../../assets/app-icon/gridstrike-256.png");
+    let bytes = include_bytes!("../../../assets/app-icon/gridstrike-geometric-256.png");
     let img = image::load_from_memory(bytes).ok()?.to_rgba8();
     Some(egui::IconData { width: img.width(), height: img.height(), rgba: img.into_raw() })
 }

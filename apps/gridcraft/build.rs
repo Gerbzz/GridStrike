@@ -7,13 +7,13 @@
 
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
-    println!("cargo:rerun-if-changed=../../assets/app-icon/gridstrike.ico");
+    println!("cargo:rerun-if-changed=../../assets/app-icon/gridstrike-geometric.ico");
     println!("cargo:rerun-if-env-changed=GRIDCRAFT_REQUIRE_WINRES");
     if std::env::var("CARGO_CFG_TARGET_OS").as_deref() != Ok("windows") {
         return;
     }
     let mut res = winresource::WindowsResource::new();
-    res.set_icon("../../assets/app-icon/gridstrike.ico")
+    res.set_icon("../../assets/app-icon/gridstrike-geometric.ico")
         .set("ProductName", "GridStrike")
         .set("FileDescription", "GridStrike spreadsheet")
         .set("LegalCopyright", "Copyright (c) the GridCraft authors. MIT OR Apache-2.0.")

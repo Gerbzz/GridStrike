@@ -1,0 +1,51 @@
+name: Geometric branding native checks
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/geometric-branding.yml
+      - assets/branding/**
+      - assets/app-icon/**
+      - apps/gridcraft/**
+      - tools/verify_geometric_identity.py
+      - tools/test_verify_geometric_identity.py
+      - README.md
+
+permissions:
+  contents: read
+
+jobs:
+  windows-native-branding:
+    runs-on: windows-latest
+    timeout-minutes: 75
+    env:
+      CARGO_BUILD_JOBS: '2'
+      CARGO_INCREMENTAL: '0'
+      CARGO_PROFILE_DEV_DEBUG: '0'
+      GRIDCRAFT_REQUIRE_WINRES: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Build the selected native GridStrike app with required icon resources
+        run: cargo build --locked -p gridcraft --bin gridstrike
+      - name: Check negative controls for packaged icon coverage
+        run: python tools/test_verify_geometric_identity.py
+      - name: Verify geometry, preserved artwork, transparency and embedded icon payloads
+        shell: pwsh
+        run: |
+          python tools/verify_geometric_identity.py --svg assets/branding/GridStrike-geometric.svg --png assets/branding/GridStrike-geometric.png --ico assets/app-icon/gridstrike-geometric.ico --original assets/branding/GridStrike.png --original-sha256 4b1ca5b24064fe68b9986ba839a8be046ae7adb6eceaa7da5b8861e1f81131b9 --exe target/debug/gridstrike.exe | Tee-Object -FilePath "$env:RUNNER_TEMP/gridstrike-branding-proof.json"
+          if ($LASTEXITCODE -ne 0) { throw 'Geometric branding verification failed' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gridstrike-geometric-branding-native
+          path: |
+            target/debug/gridstrike.exe
+            ${{ runner.temp }}/gridstrike-branding-proof.json
+          if-no-files-found: error
+          retention-days: 1
