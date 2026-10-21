@@ -95,6 +95,7 @@ $exeHash = (Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLowerInvari
 Add-Type -AssemblyName System.Drawing
 Add-Type -TypeDefinition @'
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 public static class GridCaptureWindow {
@@ -118,15 +119,34 @@ public static class GridCaptureWindow {
     [DllImport("dwmapi.dll")] public static extern int DwmFlush();
     [DllImport("user32.dll", CharSet=CharSet.Unicode)] static extern bool EnumDisplaySettings(string name, int mode, IntPtr data);
     [DllImport("user32.dll", CharSet=CharSet.Unicode)] static extern int ChangeDisplaySettings(IntPtr data, uint flags);
-    public static void EnsureDesktop() {
-        if (GetSystemMetrics(0) >= 1280 && GetSystemMetrics(1) >= 900) return;
-        // DEVMODEW: preserve current settings except its documented width/height fields.
+    public static string EnsureDesktop() {
+        int beforeWidth=GetSystemMetrics(0), beforeHeight=GetSystemMetrics(1);
+        if (beforeWidth >= 1280 && beforeHeight >= 900) return "Existing hosted display: " + beforeWidth + "x" + beforeHeight;
+        // Choose an enumerated driver-supported DEVMODEW, rather than inventing a mode.
         IntPtr p = Marshal.AllocHGlobal(220);
         try {
-            Marshal.Copy(new byte[220], 0, p, 220); Marshal.WriteInt16(p, 68, 220);
-            if (!EnumDisplaySettings(null, -1, p)) throw new Exception("Read hosted display mode failed");
-            Marshal.WriteInt32(p, 72, 0x180000); Marshal.WriteInt32(p, 172, 1600); Marshal.WriteInt32(p, 176, 1000);
-            if (ChangeDisplaySettings(p, 0) != 0) throw new Exception("Hosted display cannot fit the required native window");
+            var choices = new List<byte[]>(); var observed = new List<string>();
+            for (int mode=0; mode<512; mode++) {
+                Marshal.Copy(new byte[220], 0, p, 220); Marshal.WriteInt16(p, 68, 220);
+                if (!EnumDisplaySettings(null, mode, p)) break;
+                int width=Marshal.ReadInt32(p,172), height=Marshal.ReadInt32(p,176), bits=Marshal.ReadInt32(p,168);
+                string label=width + "x" + height + "x" + bits;
+                if (!observed.Contains(label)) observed.Add(label);
+                if (width < 1280 || height < 900 || bits != 32) continue;
+                byte[] data=new byte[220]; Marshal.Copy(p,data,0,220); choices.Add(data);
+            }
+            choices.Sort((a,b) => ((long)BitConverter.ToInt32(a,172) * BitConverter.ToInt32(a,176)).CompareTo((long)BitConverter.ToInt32(b,172) * BitConverter.ToInt32(b,176)));
+            var attempts = new List<string>();
+            foreach (byte[] data in choices) {
+                Marshal.Copy(data,0,p,220);
+                // Width, height and color depth only; do not persist settings to the registry.
+                Marshal.WriteInt32(p,72,0x1c0000);
+                int result=ChangeDisplaySettings(p,0);
+                attempts.Add(BitConverter.ToInt32(data,172) + "x" + BitConverter.ToInt32(data,176) + ":" + result);
+                if (result == 0 && GetSystemMetrics(0) >= 1280 && GetSystemMetrics(1) >= 900)
+                    return "Hosted display " + beforeWidth + "x" + beforeHeight + " -> " + GetSystemMetrics(0) + "x" + GetSystemMetrics(1) + "; modes=" + String.Join(",",observed) + "; attempts=" + String.Join(",",attempts);
+            }
+            throw new Exception("Hosted display cannot fit the required native window; current=" + beforeWidth + "x" + beforeHeight + "; supported=" + String.Join(",",observed) + "; attempts=" + String.Join(",",attempts));
         } finally { Marshal.FreeHGlobal(p); }
     }
     public static IntPtr Find(uint pid) {
@@ -142,7 +162,8 @@ public static class GridCaptureWindow {
 if ([GridCaptureWindow]::SetThreadDpiAwarenessContext([IntPtr](-4)) -eq [IntPtr]::Zero) {
     throw 'Could not establish physical-pixel DPI awareness for the capture thread.'
 }
-[GridCaptureWindow]::EnsureDesktop()
+$displayProof = [GridCaptureWindow]::EnsureDesktop()
+Write-Host $displayProof
 
 function Send-Control($Writer, $Reader, [string]$Method, [hashtable]$Params = @{}) {
     $requestId = [guid]::NewGuid().ToString('N')
@@ -264,7 +285,7 @@ $proof = [ordered]@{
     artifactId = $artifactId; artifactZipSha256 = $zipHash; executableSha256 = $exeHash
     captureRun = $env:GITHUB_RUN_ID; captureCommit = $env:GITHUB_SHA
     preferencesDisabled = $true; inputs = 'Original sales and budget samples; isolated temporary APPDATA and LOCALAPPDATA'
-    icon = $iconProof; captures = $captures
+    display = $displayProof; icon = $iconProof; captures = $captures
     limits = 'Hosted appearance only; Room, other DPI settings, broad workbook compatibility and release readiness are not verified.'
 }
 $proof | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath (Join-Path $output 'proof.json') -Encoding utf8NoBOM
