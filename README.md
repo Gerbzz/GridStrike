@@ -15,6 +15,12 @@
 
 GridStrike is a local spreadsheet editor for everyday workbook work. Open a sheet, edit cells and formulas, revisit changes with undo and redo, then save an XLSX workbook or export table data to CSV.
 
+## Rust direction and migration status
+
+- **Target:** Adapt and extend the existing Rust GridCraft foundation into GridStrike, rather than rewrite an already-Rust spreadsheet engine.
+- **Current implementation:** Published `main` includes the Rust GridCraft workbook, formula, calculation, XLSX, chart, and desktop source graph, with the original `.gstrike` reader retained in [`legacy/gridstrike`](legacy/gridstrike/) for explicit import. [Adaptation details](ADAPTATION.md) identify the donor and retained changes.
+- **Remaining migration:** Continue integration and correctness work while preserving import and save-safety behavior. Broad XLSX fidelity, crash recovery, native accessibility, cross-platform operation, and release packaging remain unverified; a bounded workbook capture does not close those gates.
+
 <p align="center"><a href="#highlights">Highlights</a> · <a href="#build-from-source">Build from source</a> · <a href="assets/branding">Original artwork</a></p>
 
 ![GridStrike showing a quarterly sales workbook, formula totals, sparklines, and charts](assets/screenshots/gridstrike-sales-dashboard.png)
