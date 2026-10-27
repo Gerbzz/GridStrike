@@ -502,6 +502,29 @@ fn let_lambda() {
 }
 
 #[test]
+fn let_name_ignores_non_ascii_case() {
+    let mut t = T::new();
+    t.set("A1", "=LET(dług,100,DŁUG*2)");
+    assert_eq!(t.num("A1"), 200.0);
+}
+
+#[test]
+fn lambda_parameter_ignores_non_ascii_case() {
+    let mut t = T::new();
+    t.set("A1", "=LAMBDA(ćma,ĆMA+1)(1)");
+    assert_eq!(t.num("A1"), 2.0);
+}
+
+#[test]
+fn isomitted_name_ignores_non_ascii_case() {
+    let mut t = T::new();
+    t.set("A1", "=LAMBDA(ćma,ISOMITTED(ĆMA))()");
+    assert_eq!(t.get("A1"), Value::Bool(true));
+    t.set("A2", "=LAMBDA(ćma,ISOMITTED(ĆMA))(1)");
+    assert_eq!(t.get("A2"), Value::Bool(false));
+}
+
+#[test]
 fn names_and_sheets() {
     let mut t = T::new();
     t.wb.names.push(gridcraft_model::DefinedName { name: "Rate".into(), scope: None, formula: "0.5".into(), comment: String::new(), hidden: false });
